@@ -7,20 +7,27 @@ public class TrainConsistManagementApp {
         // Welcome Message
         System.out.println("=== Train Consist Management App ===");
 
-        // Create HashSet for Unique Bogie IDs
-        Set<String> bogieSet = new HashSet<>();
+        // Create LinkedList for Train Consist
+        LinkedList<String> train = new LinkedList<>();
 
-        // Adding Bogie IDs (with duplicates)
-        bogieSet.add("B1");
-        bogieSet.add("B2");
-        bogieSet.add("B3");
-        bogieSet.add("B1"); // Duplicate
-        bogieSet.add("B2"); // Duplicate
+        // Add Bogies
+        train.add("Engine");
+        train.add("Sleeper");
+        train.add("AC");
+        train.add("Cargo");
+        train.add("Guard");
 
-        // Display Unique Bogies
-        System.out.println("\nUnique Bogie IDs:");
-        for (String bogie : bogieSet) {
-            System.out.println(bogie);
+        // Insert Pantry Car at position 2 (index 1)
+        train.add(1, "Pantry Car");
+
+        // Remove First and Last Bogie
+        train.removeFirst();
+        train.removeLast();
+
+        // Display Final Train Consist
+        System.out.println("\nFinal Train Consist:");
+        for (int i = 0; i < train.size(); i++) {
+            System.out.println("Bogie " + (i + 1) + ": " + train.get(i));
         }
     }
 }
