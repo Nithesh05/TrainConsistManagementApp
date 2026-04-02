@@ -1,11 +1,21 @@
 import java.util.*;
-import java.util.stream.*;
 
+// Custom Exception
+class InvalidCapacityException extends Exception {
+    InvalidCapacityException(String message) {
+        super(message);
+    }
+}
+
+// Bogie Class with validation
 class Bogie {
     String name;
     int capacity;
 
-    Bogie(String name, int capacity) {
+    Bogie(String name, int capacity) throws InvalidCapacityException {
+        if (capacity <= 0) {
+            throw new InvalidCapacityException("Capacity must be greater than 0");
+        }
         this.name = name;
         this.capacity = capacity;
     }
@@ -17,38 +27,19 @@ public class TrainConsistManagementApp {
 
         System.out.println("=== Train Consist Management App ===");
 
-        // Create large list for performance testing
         List<Bogie> bogies = new ArrayList<>();
-        for (int i = 0; i < 100000; i++) {
+
+        try {
+            // Valid bogie
             bogies.add(new Bogie("Sleeper", 72));
-            bogies.add(new Bogie("AC Chair", 60));
+
+            // Invalid bogie (will throw exception)
+            bogies.add(new Bogie("AC Chair", -10));
+
+        } catch (InvalidCapacityException e) {
+            System.out.println("Error: " + e.getMessage());
         }
 
-        // 🔹 LOOP-BASED FILTERING
-        long startLoop = System.nanoTime();
-
-        List<Bogie> loopResult = new ArrayList<>();
-        for (Bogie b : bogies) {
-            if (b.capacity > 60) {
-                loopResult.add(b);
-            }
-        }
-
-        long endLoop = System.nanoTime();
-        long loopTime = endLoop - startLoop;
-
-        // 🔹 STREAM-BASED FILTERING
-        long startStream = System.nanoTime();
-
-        List<Bogie> streamResult = bogies.stream()
-                .filter(b -> b.capacity > 60)
-                .collect(Collectors.toList());
-
-        long endStream = System.nanoTime();
-        long streamTime = endStream - startStream;
-
-        // Display results
-        System.out.println("\nLoop Time (ns): " + loopTime);
-        System.out.println("Stream Time (ns): " + streamTime);
+        System.out.println("Program continues safely...");
     }
 }
