@@ -1,26 +1,31 @@
 import org.junit.jupiter.api.Test;
-import java.util.*;
-import java.util.stream.*;
+import java.util.regex.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TrainConsistManagementAppTest {
 
     @Test
-    void testTotalCapacity() {
+    void testValidTrainId() {
+        String pattern = "TRN-\\d{4}";
+        assertTrue(Pattern.matches(pattern, "TRN-1234"));
+    }
 
-        // Input
-        List<Bogie> bogies = new ArrayList<>();
-        bogies.add(new Bogie("Sleeper", 72));
-        bogies.add(new Bogie("AC Chair", 60));
-        bogies.add(new Bogie("First Class", 40));
+    @Test
+    void testInvalidTrainId() {
+        String pattern = "TRN-\\d{4}";
+        assertFalse(Pattern.matches(pattern, "TRN-12"));
+    }
 
-        // Process
-        int result = bogies.stream()
-                .map(b -> b.capacity)
-                .reduce(0, Integer::sum);
+    @Test
+    void testValidCargoCode() {
+        String pattern = "PET-[A-Z]{2}";
+        assertTrue(Pattern.matches(pattern, "PET-AB"));
+    }
 
-        // Assertion
-        assertEquals(172, result);
+    @Test
+    void testInvalidCargoCode() {
+        String pattern = "PET-[A-Z]{2}";
+        assertFalse(Pattern.matches(pattern, "PET-123"));
     }
 }
