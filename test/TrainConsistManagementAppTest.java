@@ -7,20 +7,20 @@ import static org.junit.jupiter.api.Assertions.*;
 class TrainConsistManagementAppTest {
 
     @Test
-    void testGroupBogies() {
+    void testTotalCapacity() {
 
         // Input
         List<Bogie> bogies = new ArrayList<>();
         bogies.add(new Bogie("Sleeper", 72));
         bogies.add(new Bogie("AC Chair", 60));
-        bogies.add(new Bogie("Sleeper", 72));
+        bogies.add(new Bogie("First Class", 40));
 
         // Process
-        Map<String, List<Bogie>> result = bogies.stream()
-                .collect(Collectors.groupingBy(b -> b.name));
+        int result = bogies.stream()
+                .map(b -> b.capacity)
+                .reduce(0, Integer::sum);
 
-        // Assertions
-        assertEquals(2, result.get("Sleeper").size());
-        assertEquals(1, result.get("AC Chair").size());
+        // Assertion
+        assertEquals(172, result);
     }
 }
