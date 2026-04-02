@@ -1,6 +1,7 @@
 import java.util.*;
 import java.util.stream.*;
 
+// Bogie Class
 class Bogie {
     String name;
     int capacity;
@@ -11,7 +12,7 @@ class Bogie {
     }
 
     public String toString() {
-        return name + " -> " + capacity;
+        return name + "(" + capacity + ")";
     }
 }
 
@@ -21,22 +22,25 @@ public class TrainConsistManagementApp {
 
         System.out.println("=== Train Consist Management App ===");
 
-        // Create List
-        List<Bogie> bogies = new ArrayList<Bogie>();
+        // Create List of Bogies
+        List<Bogie> bogies = new ArrayList<>();
 
         bogies.add(new Bogie("Sleeper", 72));
         bogies.add(new Bogie("AC Chair", 60));
         bogies.add(new Bogie("First Class", 40));
+        bogies.add(new Bogie("Sleeper", 72)); // duplicate type
+        bogies.add(new Bogie("AC Chair", 60));
 
-        // Stream filter (IMPORTANT: use collect instead of toList)
-        List<Bogie> filteredList = bogies.stream()
-                .filter(b -> b.capacity > 60)
-                .collect(Collectors.toList());
+        // Grouping by Bogie Name
+        Map<String, List<Bogie>> grouped =
+                bogies.stream()
+                        .collect(Collectors.groupingBy(b -> b.name));
 
-        // Display result
-        System.out.println("\nFiltered Bogies (Capacity > 60):");
-        for (Bogie b : filteredList) {
-            System.out.println(b);
+        // Display Grouped Data
+        System.out.println("\nGrouped Bogies:");
+
+        for (Map.Entry<String, List<Bogie>> entry : grouped.entrySet()) {
+            System.out.println(entry.getKey() + " -> " + entry.getValue());
         }
     }
 }
