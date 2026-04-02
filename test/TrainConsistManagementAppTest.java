@@ -20,7 +20,7 @@ class TrainConsistManagementAppTest {
                 .filter(b -> b.capacity > 60)
                 .collect(Collectors.toList());
 
-        // Expected
+        // Assertions
         assertEquals(1, result.size());
         assertEquals("Sleeper", result.get(0).name);
     }

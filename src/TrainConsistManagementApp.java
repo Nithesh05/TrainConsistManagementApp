@@ -1,7 +1,6 @@
 import java.util.*;
 import java.util.stream.*;
 
-// Bogie Class
 class Bogie {
     String name;
     int capacity;
@@ -25,13 +24,13 @@ public class TrainConsistManagementApp {
         bogies.add(new Bogie("First Class", 40));
 
         // Stream → filter → collect
-        List<Bogie> filteredBogies = bogies.stream()
+        List<Bogie> filtered = bogies.stream()
                 .filter(b -> b.capacity > 60)
                 .collect(Collectors.toList());
 
-        // Display Result
+        // Display filtered bogies
         System.out.println("\nFiltered Bogies (Capacity > 60):");
-        for (Bogie b : filteredBogies) {
+        for (Bogie b : filtered) {
             System.out.println(b.name + " -> " + b.capacity);
         }
     }
