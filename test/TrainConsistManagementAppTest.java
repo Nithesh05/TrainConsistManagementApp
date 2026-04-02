@@ -7,33 +7,27 @@ import static org.junit.jupiter.api.Assertions.*;
 class TrainConsistManagementAppTest {
 
     @Test
-    void testSafeTrain() {
+    void testLoopVsStreamResultEquality() {
 
-        List<GoodsBogie> bogies = new ArrayList<>();
-        bogies.add(new GoodsBogie("Cylindrical", "Petroleum"));
-        bogies.add(new GoodsBogie("Box", "Coal"));
+        List<Bogie> bogies = new ArrayList<>();
+        bogies.add(new Bogie("Sleeper", 72));
+        bogies.add(new Bogie("AC Chair", 60));
+        bogies.add(new Bogie("Sleeper", 72));
 
-        boolean result = bogies.stream()
-                .allMatch(b ->
-                        !b.type.equals("Cylindrical") ||
-                                b.cargo.equals("Petroleum")
-                );
+        // Loop result
+        List<Bogie> loopResult = new ArrayList<>();
+        for (Bogie b : bogies) {
+            if (b.capacity > 60) {
+                loopResult.add(b);
+            }
+        }
 
-        assertTrue(result);
-    }
+        // Stream result
+        List<Bogie> streamResult = bogies.stream()
+                .filter(b -> b.capacity > 60)
+                .collect(Collectors.toList());
 
-    @Test
-    void testUnsafeTrain() {
-
-        List<GoodsBogie> bogies = new ArrayList<>();
-        bogies.add(new GoodsBogie("Cylindrical", "Coal")); // invalid
-
-        boolean result = bogies.stream()
-                .allMatch(b ->
-                        !b.type.equals("Cylindrical") ||
-                                b.cargo.equals("Petroleum")
-                );
-
-        assertFalse(result);
+        // Compare results
+        assertEquals(loopResult.size(), streamResult.size());
     }
 }
